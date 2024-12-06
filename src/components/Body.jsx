@@ -28,5 +28,6 @@ export default Body;
 
 // Formic is library for validation of form inputs.
 
-// Episode 15 - 32 Min
+// Because of StrictMode most of the things happens twice but only in Development.
 
+// Episode 15 - 2 Hr 31 Min

@@ -10,11 +10,13 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { USER_AVATAR } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const name = useRef(null);
   const email = useRef(null); // This will create an reference to input boxes. Reference is given in an object form.
@@ -41,7 +43,8 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          // navigate("/browse")
+          // console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -67,7 +70,8 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user);
+          navigate("/browse")
+          // console.log(user);
           updateProfile(user, {
             displayName: name.current.value,
             photoURL:

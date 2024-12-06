@@ -34,7 +34,7 @@ const Header = () => {
       }
     });
     
-    return unsubscribe(); // Unsubscribing the onAuthStateChange() when the header unmounts.
+    return () => unsubscribe(); // Unsubscribing the onAuthStateChange() when the header unmounts. The fn should be returned and not invoked immidietly otherwise it won't work
   }, [])
 
   return (
