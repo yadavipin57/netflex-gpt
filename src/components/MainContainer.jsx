@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import VideoBackground from "./VideoBackground";
 import VideoTitle from "./VideoTitle";
+import { MAIN_BG_IMG } from "../utils/constants";
 
 const MainContainer = () => {
   const movies = useSelector((store) => store.movies?.nowPlayingMovies);
@@ -15,6 +16,13 @@ const MainContainer = () => {
     <div>
       <VideoTitle title={original_title} overview={overview} />
       <VideoBackground movieId={id} />
+      <div className="relative -z-20">
+        <img
+          className="brightness-50 fixed top-0"
+          src={MAIN_BG_IMG}
+          alt="Background-Image"
+        />
+      </div>
     </div>
   );
 };

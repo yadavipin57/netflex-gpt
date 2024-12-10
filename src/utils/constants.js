@@ -13,7 +13,7 @@ export const API_OPTIONS = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNWRlMzI1OWRmMTUxNjc2NmE5ODhjYjNhNmU1NjhjMSIsIm5iZiI6MTczMjkxMDIyMS41ODQsInN1YiI6IjY3NGExYzhkOTg3ZDg2YzBlZWEwMDc2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zv7QJxiFTpscYzGz8nnOcyexgTBxYUPWw-hsaZkGpU8",
+      "Bearer " + process.env.REACT_APP_TMDB_KEY,
   },
 };
 
@@ -24,3 +24,8 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "hindi", name: "Hindi" },
   { identifier: "spanish", name: "Spanish" },
 ];
+
+export const GROQ_API_KEY = process.env.REACT_APP_GROQ_API_KEY;
+
+
+

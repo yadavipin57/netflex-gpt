@@ -7,7 +7,7 @@ const GPTSearch = () => {
     <div className="">
       <div className="absolute -z-20">
         <img
-          className="brightness-50"
+          className="brightness-50 fixed"
           src={MAIN_BG_IMG}
           alt="Background-Image"
         />
