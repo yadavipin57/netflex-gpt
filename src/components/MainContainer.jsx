@@ -13,12 +13,12 @@ const MainContainer = () => {
   const { id, original_title, overview } = mainMovie;
 
   return (
-    <div>
+    <div className="relative">
       <VideoTitle title={original_title} overview={overview} />
       <VideoBackground movieId={id} />
-      <div className="relative -z-20">
+      <div className="absolute md:relative -z-20">
         <img
-          className="brightness-50 fixed top-0"
+          className="brightness-50 fixed h-screen object-cover md:h-auto top-0"
           src={MAIN_BG_IMG}
           alt="Background-Image"
         />

@@ -10,13 +10,16 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { MAIN_BG_IMG, USER_AVATAR } from "../utils/constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const isAuthPage = location.pathname === "/";
 
   const name = useRef(null);
   const email = useRef(null); // This will create an reference to input boxes. Reference is given in an object form.
@@ -70,12 +73,11 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          navigate("/browse")
+          navigate("/browse");
           // console.log(user);
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              USER_AVATAR,
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               // Profile updated!
@@ -108,58 +110,60 @@ const Login = () => {
 
   return (
     <div>
-      <Header />
-      <div className="absolute">
+      <Header/>
+      <div className="absolute md:relative -z-20">
         <img
-          className="brightness-50"
+          className="brightness-50 fixed h-screen object-cover md:h-auto top-0"
           src={MAIN_BG_IMG}
           alt="Background-Image"
         />
       </div>
-      <form
-        className="absolute ml-[50%] transform -translate-x-[50%] mt-40 p-8 w-1/4 bg-black bg-opacity-80 rounded-sm text-white"
-        onSubmit={(e) => e.preventDefault()}
-        action=""
-      >
-        <h1 className="font-bold text-3xl">
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-        {!isSignInForm && (
+      <div>
+        <form
+          className="mx-auto mt-[35%] py-2 px-4 w-10/12 md:absolute md:ml-[50%] md:transform md:-translate-x-[50%] md:mt-40 md:p-8 md:w-1/4 bg-black bg-opacity-80 rounded-sm text-white"
+          onSubmit={(e) => e.preventDefault()}
+          action=""
+        >
+          <h1 className="font-bold text-3xl">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          {!isSignInForm && (
+            <input
+              className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
+              type="text"
+              placeholder="Full Name"
+              ref={name}
+            />
+          )}
           <input
             className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
-            type="text"
-            placeholder="Full Name"
-            ref={name}
+            type="email"
+            placeholder="Email Address"
+            ref={email}
           />
-        )}
-        <input
-          className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
-          type="email"
-          placeholder="Email Address"
-          ref={email}
-        />
-        <input
-          className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
-          type="password"
-          placeholder="Password"
-          ref={password}
-        />
-        <p className="text-red-500 font-bold py-2">{errorMessage}</p>
-        <button
-          className="my-3 p-4 w-full bg-[#E50914] text-white rounded-sm"
-          onClick={handleButtonClick}
-        >
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p
-          className="my-3 cursor-pointer hover:underline"
-          onClick={toggleSignInForm}
-        >
-          {isSignInForm
-            ? "New to Netflix? Sign Up Now"
-            : "Already registered? Sign In Now"}
-        </p>
-      </form>
+          <input
+            className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
+            type="password"
+            placeholder="Password"
+            ref={password}
+          />
+          <p className="text-red-500 font-bold py-2">{errorMessage}</p>
+          <button
+            className="my-3 p-4 w-full bg-[#E50914] text-white rounded-sm"
+            onClick={handleButtonClick}
+          >
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+          <p
+            className="my-3 cursor-pointer hover:underline"
+            onClick={toggleSignInForm}
+          >
+            {isSignInForm
+              ? "New to Netflix? Sign Up Now"
+              : "Already registered? Sign In Now"}
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

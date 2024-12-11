@@ -8,6 +8,7 @@ import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
 import { toggleGPTSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import lang from "../utils/languageConstans";
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ const Header = () => {
   const user = useSelector((store) => store.user);
   const langKey = useSelector(store => store.config.lang);
   const showGPTSearch = useSelector((store) => store.gpt.showGPTSearch);
+
+  const location = useLocation();
+
+  const isAuthPage = location.pathname === "/";
 
   const handleSignOut = () => {
     signOut(auth)
@@ -63,13 +68,13 @@ const Header = () => {
   };
 
   return (
-    <div className="w-screen absolute px-12 py-2 z-10 flex justify-between">
+    <div className={`w-screen pb-10 md:pb-0 absolute top-0 bg-black ${isAuthPage ? "bg-transparent" : "bg-black"} text-l md:text-lg md:px-12 md:py-2 z-10 flex flex-col md:flex-row justify-between`}>
       {/**bg-gradient-to-b from-black */}
-      <img className="w-44" src={LOGO} alt="Netflix Logo" />
+      <img className={`w-24 md:w-44 mx-auto md:mx-0 ${isAuthPage ? "w-[144px]" : ""} `} src={LOGO} alt="Netflix Logo" />
       {user && (
-        <div className="flex items-center">
+        <div className="flex items-center justify-evenly">
           {showGPTSearch && <select
-            className="m-2 p-2 rounded-lg cursor-pointer bg-gray-900 text-white"
+            className="m-1 p-1 md:m-2 md:p-2 rounded-lg cursor-pointer bg-gray-900 text-white"
             onChange={handleLanguageChange}
           >
             {SUPPORTED_LANGUAGES.map((lang) => (
@@ -83,18 +88,18 @@ const Header = () => {
             ))}
           </select>}
           <button
-            className="py-2 px-4 text-white rounded-lg bg-[#D9232E]"
+            className="m-1 p-1 md:m-2 md:p-2 text-sm md:text-base text-white rounded-lg bg-[#D9232E]"
             onClick={handleGPTSearchClick}
           >
             {showGPTSearch ? lang[langKey].home : lang.en.gptSearchButton}
           </button>
           <img
-            className="mx-4 w-12 h-12 rounded-full"
+            className="mx-2 w-8 h-8 md:mx-4 md:w-12 md:h-12 rounded-full"
             src={user.photoURL}
             alt="User Icon"
           />
           <button
-            className="py-2 px-4 text-white rounded-lg bg-[#D9232E]"
+            className="m-1 p-1 md:m-2 md:p-2 text-sm md:text-base text-white rounded-lg bg-[#D9232E]"
             onClick={handleSignOut}
           >
             {showGPTSearch ? lang[langKey].signOut : lang.en.signOut}

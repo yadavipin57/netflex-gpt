@@ -13,7 +13,7 @@ const lang = {
         signOut: "साइन आउट"
     },
     spanish: {
-        home: "Página principal",
+        home: "Página Principal",
         search: "Buscar",
         gptSearchPlceholder: "¿Qué te gustaría ver hoy?",
         signOut: "Desconectar"
