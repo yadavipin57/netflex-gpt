@@ -18,9 +18,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const location = useLocation();
-  const isAuthPage = location.pathname === "/";
-
   const name = useRef(null);
   const email = useRef(null); // This will create an reference to input boxes. Reference is given in an object form.
   const password = useRef(null);
@@ -129,20 +126,20 @@ const Login = () => {
           </h1>
           {!isSignInForm && (
             <input
-              className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
+              className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white outline-none focus:ring-1 focus:ring-red-500 focus:border-transparent"
               type="text"
               placeholder="Full Name"
               ref={name}
             />
           )}
           <input
-            className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
+            className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white outline-none focus:ring-1 focus:ring-red-500 focus:border-transparent"
             type="email"
             placeholder="Email Address"
             ref={email}
           />
           <input
-            className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white"
+            className="my-3 p-3 w-full rounded-sm bg-gray-500 bg-opacity-25 text-white outline-none focus:ring-1 focus:ring-red-500 focus:border-transparent"
             type="password"
             placeholder="Password"
             ref={password}

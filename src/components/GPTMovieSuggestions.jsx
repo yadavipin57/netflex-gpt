@@ -2,7 +2,9 @@ import MovieList from "./MovieList";
 import { useSelector } from "react-redux";
 
 const GPTMovieSuggestions = () => {
-  const { movieResults, movieNames } = useSelector((store) => store.gpt);
+  const { movieNames, movieResults } = useSelector((store) => store.gpt);
+
+  // console.log(movieNames)
 
   if (!movieNames) return null; // Do error handling
 
