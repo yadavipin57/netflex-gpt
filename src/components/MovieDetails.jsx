@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
-import { API_OPTIONS, IMG_CDN_URL } from "../utils/constants";
+import { API_OPTIONS, IMG_CDN_URL, MAIN_BG_IMG } from "../utils/constants";
 import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
+import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch } from "react-redux";
+import { toggleMovieDetailsView } from "../utils/movieDetailsSlice";
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState(null);
   const [castInfo, setCastInfo] = useState(null);
   const [crewInfo, setCrewInfo] = useState(null);
+  const [reviews, setReviews] = useState(null);
   const [posterPath, setPosterPath] = useState("");
   const [movieName, setMovieName] = useState("");
   const [overview, setOverview] = useState("");
   const [productions, setProductions] = useState([]);
+
+  const dispatch = useDispatch();
 
   // Fetch movie info only once when the component mounts
   useEffect(() => {
@@ -55,12 +61,45 @@ const MovieDetails = () => {
   const directors = crewInfo?.filter((crew) => crew?.job === "Director");
   const writers = crewInfo?.filter((crew) => crew?.job === "Story");
 
-  // console.log(crewInfo);
+  useEffect(() => {
+    const getReviews = async () => {
+      try {
+        const data = await fetch(
+          "https://api.themoviedb.org/3/movie/558449/reviews?language=en-US&page=1",
+          API_OPTIONS
+        );
+        const json = await data.json();
+        setReviews(json?.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getReviews();
+  }, []);
+
+  const handleMovieDetailsClose = () => {
+    dispatch(toggleMovieDetailsView());
+  };
 
   return (
     <div className="z-50">
-      <div className="mt-[40%] mx-auto md:mt-[8%] h-[76%] md:h-[96%] w-[96%] bg-black backdrop-blur-lg bg-opacity-25 rounded-xl">
+      <div className="absolute md:relative -z-20">
+        <img
+          className="brightness-50 fixed h-screen object-cover md:h-auto top-0"
+          src={MAIN_BG_IMG}
+          alt="Background-Image"
+        />
+      </div>
+      <div className="mt-[40%] mx-auto md:mt-[8%] h-[76%] md:h-[96%] w-[96%] relative bg-black backdrop-blur-lg bg-opacity-25 rounded-xl">
         {/* TOP */}
+        <div
+          className="p-2 h-fit text-white absolute right-2 top-2 cursor-pointer hover:bg-[#8f8f8fb8] transition-all rounded-full"
+          title="Close"
+          onClick={handleMovieDetailsClose}
+        >
+          <CloseIcon />
+        </div>
         <div className="py-10 px-4 flex items-start justify-evenly h-fit ">
           <div className="flex-1 h-[426px]">
             <img
@@ -91,7 +130,7 @@ const MovieDetails = () => {
               {movieInfo?.genres?.map((genre) => {
                 return (
                   <span
-                    className="px-3 py-1 rounded-2xl border border-[#a3a3a3] hover:bg-[#454545] transition-all cursor-pointer"
+                    className="px-3 py-1 rounded-2xl border border-[#a3a3a3] hover:bg-[#8f8f8fb8] transition-all cursor-pointer"
                     key={genre.id}
                   >
                     {genre?.name}
@@ -129,7 +168,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={actor.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src="/noPerson.png"
                         alt=""
                       />
@@ -145,7 +184,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={actor.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src={IMG_CDN_URL + actor?.profile_path}
                         alt=""
                       />
@@ -172,7 +211,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={director.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src="/noPerson.png"
                         alt=""
                       />
@@ -188,7 +227,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={director.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src={IMG_CDN_URL + director?.profile_path}
                         alt=""
                       />
@@ -212,7 +251,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={writer.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src="/noPerson.png"
                         alt=""
                       />
@@ -228,7 +267,7 @@ const MovieDetails = () => {
                   return (
                     <div className="w-[164px] flex-shrink-0" key={writer.id}>
                       <img
-                        className="rounded-xl w-[164px] h-[246px]"
+                        className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                         src={IMG_CDN_URL + writer?.profile_path}
                         alt=""
                       />
@@ -238,6 +277,28 @@ const MovieDetails = () => {
                     </div>
                   );
                 }
+              })}
+            </div>
+          </div>
+          {/* Reviews */}
+          <div>
+            <h2 className="mt-2 px-4 text-3xl text-white font-bold">Reviews</h2>
+            <div className="p-4 h-[90vh] overflow-y-scroll">
+              {reviews?.map((review) => {
+                const updatedAt = new Date(review?.updated_at);
+                const formattedDate = updatedAt.toLocaleString();
+                return (
+                  <div
+                    className="p-4 border-b-[1px] bg-[#1111119c] backdrop-blur-lg rounded-lg "
+                    key={review.id}
+                  >
+                    <div className="py-2 flex items-center justify-between">
+                      <h4 className="text-[#fff] text-xl">{review?.author}</h4>
+                      <h5 className="text-[#ccc] text-sm">{formattedDate}</h5>
+                    </div>
+                    <div className="text-[#ccc]">{review?.content}</div>
+                  </div>
+                );
               })}
             </div>
           </div>

@@ -25,8 +25,7 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      {showMovieDetails ? <MovieDetails /> : null}
-      {showGPTSearch ? (
+      {showMovieDetails ? <MovieDetails /> : showGPTSearch ? (
         <GPTSearch />
       ) : (
         <>

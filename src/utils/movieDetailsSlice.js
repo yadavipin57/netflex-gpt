@@ -9,11 +9,14 @@ const movieDetailsSlice = createSlice({
     reducers: {
         toggleMovieDetailsView: (state, action)=>{
             state.showMovieDetails = !state.showMovieDetails;
+        },
+        movieDetailsViewFalse: (state, action)=>{
+            state.showMovieDetails = false;
         }
     }
 })
 
-export const {toggleMovieDetailsView} = movieDetailsSlice.actions;
+export const {toggleMovieDetailsView, movieDetailsViewFalse} = movieDetailsSlice.actions;
 
 export default movieDetailsSlice.reducer;
 

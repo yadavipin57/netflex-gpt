@@ -2,6 +2,7 @@ import lang from "../utils/languageConstans";
 import { useRef } from "react";
 import useMovieSearch from "../hooks/useMovieSearch";
 import { useSelector } from "react-redux";
+import SearchIcon from "@mui/icons-material/Search";
 
 const GPTSearchBar = () => {
 
@@ -23,10 +24,11 @@ const GPTSearchBar = () => {
           placeholder={lang[langKey].gptSearchPlceholder}
         />
         <button
-          className="my-2 mx-1 md:m-4 p-1 md:py-4 md:px-4 col-span-2 bg-[#D9232E] cursor-pointer text-l md:text-lg text-white pointer rounded-lg"
+          className="my-2 mx-0 md:m-4 col-span-2 bg-[#D9232E] cursor-pointer text-white pointer rounded-lg"
           onClick={triggerSearch}
         >
-          {lang[langKey].search}
+          <SearchIcon/>
+          {/* {lang[langKey].search} */}
         </button>
       </form>
     </div>
