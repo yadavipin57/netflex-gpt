@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useMovieTrailer from "../hooks/useMovieTrailer";
 
 const VideoBackground = ({ movieId }) => {
@@ -7,7 +7,7 @@ const VideoBackground = ({ movieId }) => {
   useMovieTrailer(movieId);
 
   return (
-    <div className="-mt-[35%] md:mt-0 md:pt-0 static md:static z-40">
+    <div className="mt-[12%] md:mt-0 md:pt-0 static md:static z-40">
       <iframe
         className="w-[100%] aspect-video"
         src={

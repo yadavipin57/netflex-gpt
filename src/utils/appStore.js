@@ -4,6 +4,7 @@ import moviesReducer from "./moviesSlice"
 import gptReducer from "./gptSlice"
 import configReducer from "./configSlice"
 import movieDetailsReducer from "./movieDetailsSlice";
+import actorDetailsReducer from "./actorDetailsSlice"
 
 const appStore = configureStore(
     {
@@ -13,6 +14,7 @@ const appStore = configureStore(
             gpt: gptReducer,
             config: configReducer,
             movieDetails: movieDetailsReducer,
+            actorDetails: actorDetailsReducer,
         },
     }
 );

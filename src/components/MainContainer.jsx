@@ -10,11 +10,11 @@ const MainContainer = () => {
 
   const mainMovie = movies[0];
 
-  const { id, original_title, overview } = mainMovie;
+  const { id, title, overview } = mainMovie;
 
   return (
     <div className="relative">
-      <VideoTitle title={original_title} overview={overview} movieId={id} />
+      <VideoTitle title={title} overview={overview} movieId={id} />
       <VideoBackground movieId={id} />
       <div className="absolute md:relative -z-20">
         <img

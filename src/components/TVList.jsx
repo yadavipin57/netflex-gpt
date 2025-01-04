@@ -1,7 +1,7 @@
 import React from "react";
-import MovieCard from "./MovieCard";
+import TVCard from "./TVCard";
 
-const MovieList = ({showType, title, movies }) => {
+const TVList = ({showType, title, movies }) => {
   
   return (
     <div className="mx-1 md:px-6 md:py-3">
@@ -10,7 +10,7 @@ const MovieList = ({showType, title, movies }) => {
         <div className=" flex gap-1 md:gap-5 overflow-y-hidden overflow-x-auto">
           {movies && movies.map((movie) => (
             <div className="flex-shrink-0 w-[45%] md:w-[200px]" key={movie.id}>
-            <MovieCard movieId={movie?.id} posterPath={movie.poster_path} nameOfMovie={movie?.title} releaseDate={movie.release_date}/>
+            <TVCard movieId={movie?.id} posterPath={movie.poster_path} nameOfMovie={movie?.title} releaseDate={movie.release_date}/>
           </div>
           ))}
         </div>
@@ -19,4 +19,4 @@ const MovieList = ({showType, title, movies }) => {
   );
 };
 
-export default MovieList;
+export default TVList;

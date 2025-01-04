@@ -7,7 +7,7 @@ import {
 } from "../utils/movieDetailsSlice";
 import { clearActorId, toggleActorDetailsView } from "../utils/actorDetailsSlice";
 
-const MovieCard = ({ movieId, posterPath, nameOfMovie, releaseDate }) => {
+const TVCard = ({ movieId, posterPath, nameOfMovie, releaseDate }) => {
   const dispatch = useDispatch();
 
   if (!posterPath) return null;
@@ -30,7 +30,7 @@ const MovieCard = ({ movieId, posterPath, nameOfMovie, releaseDate }) => {
     "Dec",
   ];
 
-  const handleMovieClick = () => {
+  const handleTVClick = () => {
     dispatch(clearActorId());
     dispatch(toggleMovieDetailsView());
     dispatch(populateMovieId(movieId));
@@ -39,7 +39,7 @@ const MovieCard = ({ movieId, posterPath, nameOfMovie, releaseDate }) => {
   return (
     <div
       className="sm:m-2 p-2  relative cursor-pointer group sm:w-[200px] sm:h-[300px] "
-      onClick={handleMovieClick}
+      onClick={handleTVClick}
     >
       {/* Image */}
       <img
@@ -59,4 +59,4 @@ const MovieCard = ({ movieId, posterPath, nameOfMovie, releaseDate }) => {
   );
 };
 
-export default MovieCard;
+export default TVCard;

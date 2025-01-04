@@ -9,12 +9,12 @@ import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import GPTSearch from "./GPTSearch";
 import { useSelector } from "react-redux";
 import MovieDetails from "./MovieDetails";
+import ActorDetails from "./ActorDetails";
 
 const Browse = () => {
   const showGPTSearch = useSelector((store) => store.gpt.showGPTSearch);
-  const showMovieDetails = useSelector(
-    (store) => store.movieDetails.showMovieDetails
-  );
+  const movieIdFromStore = useSelector((store) => store.movieDetails.movieId);
+  const actorIdFromStore = useSelector((store) => store.actorDetails.actorId);
 
   useNowPlayingMovies();
   usePopularMovies();
@@ -25,7 +25,11 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      {showMovieDetails ? <MovieDetails /> : showGPTSearch ? (
+      {movieIdFromStore ? (
+        <MovieDetails />
+      ) : actorIdFromStore ? (
+        <ActorDetails />
+      ) : showGPTSearch ? (
         <GPTSearch />
       ) : (
         <>

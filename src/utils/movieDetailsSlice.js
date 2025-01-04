@@ -1,22 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const movieDetailsSlice = createSlice({
-    name: "movieDetails",
-    initialState: {
-        showMovieDetails: false,
-        movieDetails: null,
+  name: "movieDetails",
+  initialState: {
+    showMovieDetails: false,
+    movieDetails: null,
+    movieId: null,
+  },
+  reducers: {
+    toggleMovieDetailsView: (state) => {
+      state.showMovieDetails = !state.showMovieDetails;
     },
-    reducers: {
-        toggleMovieDetailsView: (state, action)=>{
-            state.showMovieDetails = !state.showMovieDetails;
-        },
-        movieDetailsViewFalse: (state, action)=>{
-            state.showMovieDetails = false;
-        }
+    movieDetailsViewFalse: (state) => {
+      state.showMovieDetails = false;
+    },
+    populateMovieId: (state, action) => {
+      state.movieId = action.payload;
+    },
+    clearMovieId: (state)=>{
+      state.movieId = null;
     }
-})
+  },
+});
 
-export const {toggleMovieDetailsView, movieDetailsViewFalse} = movieDetailsSlice.actions;
+export const {
+  toggleMovieDetailsView,
+  movieDetailsViewFalse,
+  populateMovieId,
+  clearMovieId,
+} = movieDetailsSlice.actions;
 
 export default movieDetailsSlice.reducer;
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
@@ -9,9 +9,10 @@ import { toggleGPTSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import lang from "../utils/languageConstans";
 import { useLocation } from "react-router-dom";
-import { movieDetailsViewFalse } from "../utils/movieDetailsSlice";
+import { clearMovieId, movieDetailsViewFalse } from "../utils/movieDetailsSlice";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { actorDetailsViewFalse, clearActorId } from "../utils/actorDetailsSlice";
 
 const Header = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
@@ -71,7 +72,8 @@ const Header = () => {
     // Toggle GPT Search
     setIsMenuClicked(false);
     dispatch(toggleGPTSearchView());
-    dispatch(movieDetailsViewFalse());
+    dispatch(clearMovieId());
+    dispatch(clearActorId());
   };
 
   const handleLanguageChange = (e) => {
@@ -80,7 +82,7 @@ const Header = () => {
 
   return (
     <div
-      className={`w-screen p-2 md:pb-0 absolute top-0 bg-black ${
+      className={`w-screen h-fit md:pb-0 absolute top-0  ${
         isAuthPage ? "bg-transparent" : "bg-transparent"
       } text-lg md:text-lg md:px-12 md:py-2 z-10 flex flex-row justify-between`}
     >
@@ -97,18 +99,21 @@ const Header = () => {
       <div>
         {user && (
           <div
-            className="block md:hidden text-white cursor-pointer "
+            className="px-2 block md:hidden text-white cursor-pointer "
             onClick={handleMenuClick}
           >
-            {isMenuClicked ? <CloseIcon /> : <MenuIcon />}
+            {isMenuClicked ? "" : <MenuIcon />}
           </div>
         )}
         <div className={`${isMenuClicked ? "flex" : "hidden"} md:block`}>
           {user && (
-            <div className="w-fit flex flex-col sm:flex-row items-start sm:items-center justify-evenly">
-              <div className="flex items-center">
+            <div className="pr-2 pl-4 pb-4 sm:p-1 w-[121px] rounded-bl-lg sm:rounded-lg sm:w-fit flex flex-col items-end sm:flex-row  sm:items-center justify-evenly bg-[#16161676] backdrop-blur-sm">
+              <div className="text-white " onClick={handleMenuClick}>
+                {isMenuClicked ? <CloseIcon /> : ""}
+              </div>
+              <div className="m-1 w-full sm:w-auto flex items-center justify-between">
                 <img
-                  className="mx-2 w-8 h-8 md:mx-4 md:w-12 md:h-12 rounded-full"
+                  className=" w-8 h-8 md:mx-4 md:w-12 md:h-12 rounded-full"
                   src={user.photoURL}
                   alt="User Icon"
                 />
