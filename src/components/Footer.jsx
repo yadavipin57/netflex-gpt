@@ -1,10 +1,25 @@
+import { useDispatch } from "react-redux";
 import { LOGO } from "../utils/constants";
+import { clearActorId } from "../utils/actorDetailsSlice";
+import { clearMovieId } from "../utils/movieDetailsSlice";
+import { clearTVId } from "../utils/tvDetailsSlice";
+import { toggleGPTSearchView } from "../utils/gptSlice";
 
 const Footer = () => {
+
+  const dispatch = useDispatch();
+
+  const handleGoToHomepage = () => {
+      dispatch(clearActorId());
+      dispatch(clearMovieId());
+      dispatch(clearTVId());
+      dispatch(toggleGPTSearchView())
+    };
+
   return (
-    <div className="mt-12 p-2  bg-gradient-to-r bg-gray-700 bg-opacity-70 backdrop-blur-lg">
+    <div className="mt-12 p-2  bg-gradient-to-r bg-[#361818] bg-opacity-70 backdrop-blur-lg">
       <div className="flex items-center justify-between">
-        <div className="">
+        <div className="cursor-pointer" onClick={handleGoToHomepage} title="Go to homepage">
           <img className="w-28 md:w-44 mx-auto md:mx-" src={LOGO} alt="LOGO" />
         </div>
         <div className="w-1/2 sm:w-auto flex flex-col sm:flex-row items-center">

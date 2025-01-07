@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
@@ -13,6 +13,7 @@ import { clearMovieId } from "../utils/movieDetailsSlice";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { clearActorId } from "../utils/actorDetailsSlice";
+import { clearTVId } from "../utils/tvDetailsSlice";
 
 const Header = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
@@ -53,7 +54,9 @@ const Header = () => {
             photoURL: photoURL,
           })
         ); // Putting the uid, email, displayName into the store. As much data as much we want
-        navigate("/browse");
+        if (location.pathname === "/") {
+          navigate("/browse");
+        }
       } else {
         // This is Sign Out case
         dispatch(removeUser());
@@ -80,14 +83,29 @@ const Header = () => {
     dispatch(changeLanguage(e.target.value));
   };
 
+  const handleGoToHomepage = () => {
+    dispatch(clearActorId());
+    dispatch(clearMovieId());
+    dispatch(clearTVId());
+    dispatch(toggleGPTSearchView());
+  };
+
+  const handleNavigateToWishlist = () => {
+    navigate("/wishlist");
+  };
+
   return (
     <div
       className={`w-screen h-fit md:pb-0 absolute top-0  ${
         isAuthPage ? "bg-transparent" : "bg-transparent"
-      } text-lg md:text-lg md:px-12 md:py-2 z-10 flex flex-row justify-between`}
+      } text-lg md:text-lg md:px-12 md:py-2 z-10 flex flex-row justify-between bg-gradient-to-r bg-[#361818] bg-opacity-70 backdrop-blur-lg`}
     >
       {/**bg-gradient-to-b from-black */}
-      <div className="w-fit">
+      <div
+        className="w-fit cursor-pointer"
+        onClick={handleGoToHomepage}
+        title="Go to homepage"
+      >
         <img
           className={`w-24 md:w-44 mx-auto md:mx-0 ${
             isAuthPage ? "w-[144px]" : ""
@@ -96,7 +114,7 @@ const Header = () => {
           alt="Netflix Logo"
         />
       </div>
-      <div>
+      <div className="absolute right-0 sm:static">
         {user && (
           <div
             className="px-2 block md:hidden text-white cursor-pointer "
@@ -140,6 +158,12 @@ const Header = () => {
                 onClick={handleGPTSearchClick}
               >
                 {showGPTSearch ? lang[langKey].home : lang.en.gptSearchButton}
+              </button>
+              <button
+                className="m-1 p-1 md:m-2 md:p-2 w-full sm:w-auto text-sm md:text-base text-white rounded-lg bg-[#D9232E]"
+                onClick={handleNavigateToWishlist}
+              >
+                {showGPTSearch ? lang[langKey].wishlist : lang.en.wishlist}
               </button>
               <button
                 className="m-1 p-1 md:m-2 md:p-2 w-full sm:w-auto text-sm md:text-base text-white rounded-lg bg-[#D9232E]"

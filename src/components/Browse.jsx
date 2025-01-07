@@ -45,6 +45,7 @@ const Browse = () => {
         </>
       )}  
       <Footer/>
+      
     </div>
   );
 };

@@ -8,9 +8,9 @@ const MainContainer = () => {
 
   if (!movies) return; // This is EARLY RETURN because if movies is null then movies[0] will cause an error to occur that is why we are already checking for null.
 
-  let randomIndex = Math.floor(Math.random()*20);
+  // let randomIndex = Math.floor(Math.random()*20);
 
-  const mainMovie = movies[randomIndex];
+  const mainMovie = movies[0];
 
   const { id, title, overview } = mainMovie;
 
@@ -20,7 +20,7 @@ const MainContainer = () => {
       <VideoBackground movieId={id} />
       <div className="absolute md:relative -z-20">
         <img
-          className="brightness-50 fixed h-screen object-cover md:h-auto top-0"
+          className="brightness-50 fixed h-[100vh] object-cover md:h-auto top-0"
           src={MAIN_BG_IMG}
           alt="Background-Image"
         />
