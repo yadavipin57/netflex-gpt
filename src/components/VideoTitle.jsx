@@ -1,14 +1,13 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import InfoIcon from "@mui/icons-material/Info";
 import { useDispatch } from "react-redux";
-import { toggleMovieDetailsView, populateMovieId } from "../utils/movieDetailsSlice";
+import { populateMovieId } from "../utils/movieDetailsSlice";
 
 const VideoTitle = ({ title, overview, movieId }) => {
   const dispatch = useDispatch();
 
   const handleMovieInfoClick = () => {
-    dispatch(toggleMovieDetailsView());
-    dispatch(populateMovieId(movieId))
+    dispatch(populateMovieId(movieId));
   };
 
   return (
@@ -19,7 +18,8 @@ const VideoTitle = ({ title, overview, movieId }) => {
       <p className="hidden md:block py-6 text-lg w-1/2">{overview}</p>
       <div className="w-2/5">
         <button className="ml-2 mb-1 md:ml-0 md:mb-0 text-[10px] py-0 pr-1 pl-0 md:text-base md:mr-2 md:py-2 md:px-6 rounded-sm text-black font-bold bg-gray-200 hover:bg-opacity-75">
-          <PlayArrowIcon />Play
+          <PlayArrowIcon />
+          Play
         </button>
         <button
           className="ml-2 mb-1 md:ml-0 md:mb-0 text-[10px] py-0 pr-1 pl-0 md:text-base md:mr-2 md:py-2 md:px-6 rounded-sm text-black font-bold bg-gray-200 hover:bg-opacity-75"

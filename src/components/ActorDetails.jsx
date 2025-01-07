@@ -8,6 +8,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import TVList from "./TVList";
 
 const ActorDetails = () => {
   const actorId = useSelector((store) => store?.actorDetails?.actorId);
@@ -38,7 +39,10 @@ const ActorDetails = () => {
               `https://api.themoviedb.org/3/person/${actorId}/movie_credits?language=en-US`,
               API_OPTIONS
             ),
-            fetch(`https://api.themoviedb.org/3/person/${actorId}/tv_credits?language=en-US`, API_OPTIONS)
+            fetch(
+              `https://api.themoviedb.org/3/person/${actorId}/tv_credits?language=en-US`,
+              API_OPTIONS
+            ),
           ]);
 
         const actorData = await actorRes.json();
@@ -90,7 +94,7 @@ const ActorDetails = () => {
   ];
 
   return (
-    <div className=" sm:mt-0 z-50">
+    <div className=" sm:mt-0">
       <div className="absolute md:relative -z-20">
         <img
           className="brightness-50 fixed h-screen object-cover md:h-auto top-0"
@@ -107,39 +111,39 @@ const ActorDetails = () => {
           >
             <CloseIcon />
           </div>
-          <div className="p-12 text-white sm:flex items-start justify-evenly h-fit">
+          <div className="p-2 sm:p-12 text-white sm:flex items-start justify-evenly h-fit">
             <div className="">
               <img
-                className="mx-auto w-[144px] block sm:w-[360px] sm:h-[540px] object-cover rounded-xl cursor-pointer border border-red-700"
+                className="mx-auto w-[144px] block sm:w-[280px] sm:h-[420px] object-cover rounded-xl cursor-pointer border border-red-700"
                 src={IMG_CDN_URL + actorInfo?.profile_path}
                 alt={actorInfo?.name || "Movie Poster"}
               />
             </div>
-            <div className="w-1/2 sm:h-[540px] flex flex-col justify-between">
-              <div className="text-5xl font-bold">
+            <div className="w-full sm:w-1/2 sm:h-[540px] flex flex-col">
+              <div className="text-2xl sm:text-5xl font-bold">
                 {actorInfo?.name},{" "}
-                <span className="text-lg font-normal">
+                <span className="text-sm sm:text-lg font-normal">
                   {actorInfo?.known_for_department}
                 </span>{" "}
               </div>
-              <div className="flex items-center">
-                <div className="text-xl">
+              <div className="sm:flex items-center">
+                <div className="text-md sm:text-xl">
                   Born:
                   {` ${birthMonth[birthDateArray?.[1] - 1]} ${
                     birthDateArray?.[2]
                   }, ${birthDateArray?.[0]},`}
                   &nbsp;
                 </div>
-                <div className="text-xl">
+                <div className="text-md sm:text-xl">
                   {actorInfo?.place_of_birth}&nbsp;|&nbsp;
                 </div>
-                <div className="text-xl"> {gender}</div>
+                <div className="text-md sm:text-xl"> {gender}</div>
               </div>
-              <div>
+              <div className="text-md sm:text-xl">
                 {actorInfo?.deathday ? `Death: ${actorInfo?.deathday}` : ""}
               </div>
-              <div>
-                {actorInfo?.homepage ? `Website: ` : null}
+              <div className="flex">
+                {actorInfo?.homepage ? `Website:_` : null}
                 <a
                   className="text-blue-500"
                   href={actorInfo?.homepage}
@@ -149,13 +153,13 @@ const ActorDetails = () => {
                   {actorInfo?.homepage ? `${actorInfo?.homepage}` : null}
                 </a>
               </div>
-              <div className="overflow-y-scroll text-justify">
+              <div className="pr-1 h-[50vh] sm:h-auto overflow-y-scroll text-justify">
                 {actorInfo?.biography}
               </div>
             </div>
           </div>
           <div>
-            <div className="flex justify-evenly">
+            <div className="px-2 flex items-center justify-start sm:justify-evenly flex-wrap gap-2">
               {actorExternalLinksInfo?.facebook_id && (
                 <span className="px-4 py-2 flex items-center gap-1 rounded-lg text-white bg-[#D7232E]">
                   <FacebookIcon />@{actorExternalLinksInfo?.facebook_id}
@@ -180,8 +184,14 @@ const ActorDetails = () => {
           </div>
           <div className="mt-10">
             {/* This send the list of movies of that actor to MovieList as prop */}
-            <MovieList showType={"movie"} title={`Movies`} movies={actorMovieNamesInfo?.cast} />
-            {/* <MovieList showType={"tv"} title={`TV Series`} movies={actorTVNamesInfo?.cast} /> */}
+            <MovieList
+              title={`Movies`}
+              movies={actorMovieNamesInfo?.cast}
+            />
+            <TVList
+              title={`TV Shows & Series`}
+              tvShows={actorTVNamesInfo?.cast}
+            />
           </div>
         </div>
       </div>

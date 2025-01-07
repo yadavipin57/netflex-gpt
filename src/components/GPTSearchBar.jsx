@@ -12,7 +12,7 @@ const GPTSearchBar = () => {
   const { triggerSearch } = useMovieSearch(searchText);
 
   return (
-    <div className="pt-[30%] md:pt-[10%] flex justify-center">
+    <div className="pt-[10%] md:pt-[10%] flex justify-center">
       <form
         className="mt-10 md:mt-0 bg-black bg-opacity-50 rounded-lg w-full md:w-1/2 grid grid-cols-12"
         onSubmit={(e) => e.preventDefault()}

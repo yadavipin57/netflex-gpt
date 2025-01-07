@@ -9,10 +9,10 @@ import { toggleGPTSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import lang from "../utils/languageConstans";
 import { useLocation } from "react-router-dom";
-import { clearMovieId, movieDetailsViewFalse } from "../utils/movieDetailsSlice";
+import { clearMovieId } from "../utils/movieDetailsSlice";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { actorDetailsViewFalse, clearActorId } from "../utils/actorDetailsSlice";
+import { clearActorId } from "../utils/actorDetailsSlice";
 
 const Header = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);

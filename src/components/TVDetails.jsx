@@ -8,49 +8,47 @@ import {
 import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { clearMovieId } from "../utils/movieDetailsSlice";
+import { clearTVId } from "../utils/tvDetailsSlice";
 import ActorCard from "./ActorCard";
 
-const MovieDetails = () => {
-  const movieId = useSelector((store) => store.movieDetails.movieId);
+const TVDetails = () => {
+  const tvShowId = useSelector((store) => store.tvDetails.tvShowId);
 
-  const [movieInfo, setMovieInfo] = useState(null);
+  const [tvShowInfo, setTVShowInfo] = useState(null);
   const [castInfo, setCastInfo] = useState(null);
   const [crewInfo, setCrewInfo] = useState(null);
   const [reviews, setReviews] = useState(null);
 
   const dispatch = useDispatch();
 
-  // const movieId = 1156593;
-
   useEffect(() => {
-    const fetchMovieData = async () => {
+    const fetchTVData = async () => {
       try {
-        const [movieRes, creditsRes, reviewsRes] = await Promise.all([
+        const [tvRes, creditsRes, reviewsRes] = await Promise.all([
           fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+            `https://api.themoviedb.org/3/tv/${tvShowId}?language=en-US`,
             API_OPTIONS
           ),
           fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
+            `https://api.themoviedb.org/3/tv/${tvShowId}/credits?language=en-US`,
             API_OPTIONS
           ),
           fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`,
+            `https://api.themoviedb.org/3/tv/${tvShowId}/reviews?language=en-US&page=1`,
             API_OPTIONS
           ),
         ]);
 
-        const movieData = await movieRes.json();
+        const tvData = await tvRes.json();
         const creditsData = await creditsRes.json();
         const reviewsData = await reviewsRes.json();
 
-        setMovieInfo(movieData);
+        setTVShowInfo(tvData);
         setCastInfo(creditsData?.cast);
         setCrewInfo(creditsData?.crew);
         setReviews(reviewsData?.results);
       } catch (error) {
-        console.error("Failed to fetch movie data: ", error);
+        console.error("Failed to fetch TV Show data: ", error);
       }
     };
 
@@ -59,8 +57,8 @@ const MovieDetails = () => {
       behavior: "smooth", // Smooth scrolling
     });
 
-    if (movieId) fetchMovieData();
-  }, [movieId]);
+    if (tvShowId) fetchTVData();
+  }, [tvShowId]);
 
   const directors = crewInfo?.filter((crew) => crew?.job === "Director");
   const writers = crewInfo?.filter((crew) => crew?.job === "Story");
@@ -68,14 +66,14 @@ const MovieDetails = () => {
   const isDirectorPresent = directors?.length > 0;
   const isWriterPresent = writers?.length > 0;
 
-  const handleMovieDetailsClose = () => {
-    dispatch(clearMovieId());
+  const handleTVDetailsClose = () => {
+    dispatch(clearTVId());
   };
 
-  const revenue = (movieInfo?.revenue / 1000000).toFixed(0);
-  const budget = (movieInfo?.budget / 1000000).toFixed(0);
+  // const revenue = (tvShowInfo?.revenue / 1000000).toFixed(0);
+  // const budget = (tvShowInfo?.budget / 1000000).toFixed(0);
 
-  const releaseDateArray = movieInfo?.release_date?.split("-");
+  const releaseDateArray = tvShowInfo?.first_air_date?.split("-");
   const releaseMonth = [
     "Jan",
     "Feb",
@@ -93,6 +91,7 @@ const MovieDetails = () => {
 
   return (
     <div>
+      {/* <Header /> */}
       <div className=" sm:mt-0 z-50">
         <div className="absolute md:relative -z-20">
           <img
@@ -106,14 +105,14 @@ const MovieDetails = () => {
           <div className="w-full absolute -z-40">
             <img
               className="w-full rounded-xl blur-lg opacity-50"
-              src={IMG_CDN_BACKDROP_URL + movieInfo?.backdrop_path}
+              src={IMG_CDN_BACKDROP_URL + tvShowInfo?.backdrop_path}
               alt=""
             />
           </div>
           <div
             className="p-2 h-fit text-white absolute right-2 top-2 cursor-pointer hover:bg-[#8f8f8fb8] transition-all rounded-full"
             title="Close"
-            onClick={handleMovieDetailsClose}
+            onClick={handleTVDetailsClose}
           >
             <CloseIcon />
           </div>
@@ -121,20 +120,20 @@ const MovieDetails = () => {
             <div className="flex gap-2 flex-1 w-full sm:h-[426px] ">
               <img
                 className="mx-auto w-[144px] block sm:w-[284px] sm:h-[426px] object-cover rounded-lg border border-red-700"
-                src={IMG_CDN_URL + movieInfo?.poster_path}
-                alt={movieInfo?.title || "Movie Poster"}
+                src={IMG_CDN_URL + tvShowInfo?.poster_path}
+                alt={tvShowInfo?.title || "TV Show Poster"}
               />
               <div className="sm:hidden font-bold text-white items-baseline gap-4">
                 <div>
-                  <div className="text-xl">{movieInfo?.title}</div>
-                  <div className="mt-1 font-normal">{movieInfo?.tagline}</div>
+                  <div className="text-xl">{tvShowInfo?.title}</div>
+                  <div className="mt-1 font-normal">{tvShowInfo?.tagline}</div>
                 </div>
                 <div
                   className="mt-1 px-1 py-1  w-fit rounded-lg flex itetms-center gap-1 bg-[#eb3944]"
-                  title={`Votes: ${movieInfo?.vote_count}`}
+                  title={`Votes: ${tvShowInfo?.vote_count}`}
                 >
                   <StarBorderPurple500Icon />{" "}
-                  {movieInfo?.vote_average?.toFixed(1)}
+                  {tvShowInfo?.vote_average?.toFixed(1)}
                 </div>
               </div>
             </div>
@@ -146,13 +145,13 @@ const MovieDetails = () => {
                 }, ${releaseDateArray?.[0]}`}
               </span>
               <span>|</span>
-              <span>{movieInfo?.runtime} mins</span>
+              <span>{tvShowInfo?.runtime} mins</span>
               <span>|</span>
-              <span>{movieInfo?.spoken_languages?.[0]?.name}</span>
+              <span>{tvShowInfo?.spoken_languages?.[0]?.name}</span>
             </div>
             {/* MOBILE: Genres */}
             <div className="mb-1 sm:hidden flex justify-between text-white gap-4">
-              {movieInfo?.genres?.map((genre) => {
+              {tvShowInfo?.genres?.map((genre) => {
                 return (
                   <span
                     className="px-2 py-1 text-sm rounded-2xl border border-[#a3a3a3] hover:bg-[#8f8f8fb8] transition-all cursor-pointer"
@@ -167,19 +166,19 @@ const MovieDetails = () => {
             <div className="flex flex-col justify-between flex-[2] h-[426px]">
               <div className="font-bold text-white hidden sm:flex items-baseline gap-4">
                 <div>
-                  <div className="sm:text-5xl">{movieInfo?.title}</div>
-                  <div className="mt-1 font-normal">{movieInfo?.tagline}</div>
+                  <div className="sm:text-5xl">{tvShowInfo?.title}</div>
+                  <div className="mt-1 font-normal">{tvShowInfo?.tagline}</div>
                 </div>
                 <div
                   className="px-3 py-1 rounded-lg flex itetms-center gap-1 bg-[#eb3944]"
-                  title={`Votes: ${movieInfo?.vote_count}`}
+                  title={`Votes: ${tvShowInfo?.vote_count}`}
                 >
                   <StarBorderPurple500Icon />{" "}
-                  {movieInfo?.vote_average?.toFixed(1)}
+                  {tvShowInfo?.vote_average?.toFixed(1)}
                 </div>
               </div>
               <div className="text-sm sm:leading-6 text-justify sm:text-[18px] text-white">
-                {movieInfo?.overview}
+                {tvShowInfo?.overview}
               </div>
               {/* Release date, runtime, lang */}
               <div className="hidden sm:block text-white">
@@ -189,12 +188,12 @@ const MovieDetails = () => {
                   }, ${releaseDateArray?.[0]}`}{" "}
                   |{" "}
                 </span>
-                <span>{movieInfo?.runtime} mins | </span>
-                <span>{movieInfo?.spoken_languages?.[0]?.name}</span>
+                <span>{tvShowInfo?.runtime} mins | </span>
+                <span>{tvShowInfo?.spoken_languages?.[0]?.name}</span>
               </div>
               {/* Genres */}
               <div className="hidden sm:flex text-white gap-4">
-                {movieInfo?.genres?.map((genre) => {
+                {tvShowInfo?.genres?.map((genre) => {
                   return (
                     <span
                       className="px-3 py-1 rounded-2xl border border-[#a3a3a3] hover:bg-[#8f8f8fb8] transition-all cursor-pointer"
@@ -205,13 +204,22 @@ const MovieDetails = () => {
                   );
                 })}
               </div>
+              <div className="hidden sm:flex text-white gap-4">
+                {
+                  tvShowInfo?.created_by?.map((creator, index)=>{
+                    return (
+                      <span key={creator?.id}>{index===0 ? "Created By: " : ""}{creator?.name}</span>
+                    )
+                  })
+                }
+              </div>
               {/* Production Comp */}
               <div className="">
                 <h3 className="sm:mb-2 text-white text-xl">
                   Production Companies
                 </h3>
                 <div className="mt-2 sm:mt-0 flex flex-wrap gap-2 sm:gap-2 items-center">
-                  {movieInfo?.production_companies?.map((production) => (
+                  {tvShowInfo?.production_companies?.map((production) => (
                     <p
                       className="sm:mr-2 p-1 sm:p-2 text-sm sm:text-lg bg-[#eb3944] text-white flex items-center gap-1 rounded-md cursor-pointer hover:bg-[#ff5151] transition-all"
                       key={production?.id}
@@ -225,15 +233,6 @@ const MovieDetails = () => {
                     </p>
                   ))}
                 </div>
-              </div>
-              {/* Budget and Revenue */}
-              <div className="text-white flex gap-4">
-                <span className="px-2 py-1 sm:px-3 sm:py-1 text-sm rounded-2xl border border-[#a3a3a3] hover:bg-[#8f8f8fb8] transition-all cursor-pointer">
-                  Budget: $ {budget} M
-                </span>
-                <span className="px-2 py-1 sm:px-3 sm:py-1 text-sm rounded-2xl border border-[#a3a3a3] hover:bg-[#8f8f8fb8] transition-all cursor-pointer">
-                  Revenue: $ {revenue} M
-                </span>
               </div>
             </div>
           </div>
@@ -260,7 +259,7 @@ const MovieDetails = () => {
                           key={director.id}
                         >
                           <img
-                            className="rounded-xl w-[120px] h-[180px] cursor-pointer"
+                            className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                             src="/noPerson.png"
                             alt=""
                           />
@@ -279,7 +278,7 @@ const MovieDetails = () => {
                           key={director.id}
                         >
                           <img
-                            className="rounded-xl w-[120px] h-[180px] cursor-pointer"
+                            className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                             src={IMG_CDN_URL + director?.profile_path}
                             alt=""
                           />
@@ -304,11 +303,11 @@ const MovieDetails = () => {
                     if (writer?.profile_path === null) {
                       return (
                         <div
-                          className="w-[120px] flex-shrink-0"
+                          className="w-[164px] flex-shrink-0"
                           key={writer.id}
                         >
                           <img
-                            className="rounded-xl w-[120px] h-[180px] cursor-pointer"
+                            className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                             src="/noPerson.png"
                             alt=""
                           />
@@ -320,11 +319,11 @@ const MovieDetails = () => {
                     } else {
                       return (
                         <div
-                          className="w-[120px] flex-shrink-0"
+                          className="w-[164px] flex-shrink-0"
                           key={writer.id}
                         >
                           <img
-                            className="rounded-xl w-[120px] h-[180px] cursor-pointer"
+                            className="rounded-xl w-[164px] h-[246px] cursor-pointer"
                             src={IMG_CDN_URL + writer?.profile_path}
                             alt=""
                           />
@@ -371,4 +370,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default TVDetails;

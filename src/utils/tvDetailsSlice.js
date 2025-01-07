@@ -1,23 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const movieDetailsSlice = createSlice({
-  name: "movieDetails",
+const tvDetailsSlice = createSlice({
+  name: "tvDetails",
   initialState: {
-    movieId: null,
+    tvShowId: null,
   },
   reducers: {
-    populateMovieId: (state, action) => {
-      state.movieId = action.payload;
+    populateTVId: (state, action) => {
+      state.tvShowId = action.payload;
     },
-    clearMovieId: (state) => {
-      state.movieId = null;
-    },
+    clearTVId: (state)=>{
+      state.tvShowId = null;
+    }
   },
 });
 
-export const { populateMovieId, clearMovieId } = movieDetailsSlice.actions;
+export const {
+  populateTVId,
+  clearTVId,
+} = tvDetailsSlice.actions;
 
-export default movieDetailsSlice.reducer;
+export default tvDetailsSlice.reducer;
 
 // Basic structure of Slice
 //1. use createSlice() to create a slice

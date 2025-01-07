@@ -1,12 +1,7 @@
 import { useDispatch } from "react-redux";
-import {
-  populateActorId,
-  toggleActorDetailsView,
-} from "../utils/actorDetailsSlice";
+import { populateActorId } from "../utils/actorDetailsSlice";
 import { IMG_CDN_URL } from "../utils/constants";
-import {
-  clearMovieId,
-} from "../utils/movieDetailsSlice";
+import { clearMovieId } from "../utils/movieDetailsSlice";
 
 const ActorCard = ({ castInfo }) => {
   const dispatch = useDispatch();
@@ -14,7 +9,6 @@ const ActorCard = ({ castInfo }) => {
   const handleActorClicked = (actorId) => {
     // actorId is recieved as argument here as it is passed as parameter where its referenced
     dispatch(clearMovieId());
-    dispatch(toggleActorDetailsView());
     dispatch(populateActorId(actorId));
   };
 
@@ -23,9 +17,9 @@ const ActorCard = ({ castInfo }) => {
       {castInfo?.map((actor) => {
         if (actor?.profile_path === null) {
           return (
-            <div className="w-[164px] flex-shrink-0" key={actor.id}>
+            <div className="w-[120px] flex-shrink-0" key={actor.id}>
               <img
-                className="rounded-xl w-[164px] h-[246px] cursor-pointer"
+                className="rounded-xl w-[120px] h-[180px] cursor-pointer"
                 src="/noPerson.png"
                 alt=""
                 onClick={() => handleActorClicked(actor.id)}
@@ -40,9 +34,9 @@ const ActorCard = ({ castInfo }) => {
           );
         } else {
           return (
-            <div className="w-[164px] flex-shrink-0" key={actor.id}>
+            <div className="w-[120px] flex-shrink-0" key={actor.id}>
               <img
-                className="rounded-xl w-[164px] h-[246px] cursor-pointer"
+                className="rounded-xl w-[120px] h-[180px] cursor-pointer"
                 src={IMG_CDN_URL + actor?.profile_path}
                 alt=""
                 onClick={() => handleActorClicked(actor.id)}

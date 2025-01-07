@@ -8,7 +8,9 @@ const MainContainer = () => {
 
   if (!movies) return; // This is EARLY RETURN because if movies is null then movies[0] will cause an error to occur that is why we are already checking for null.
 
-  const mainMovie = movies[0];
+  let randomIndex = Math.floor(Math.random()*20);
+
+  const mainMovie = movies[randomIndex];
 
   const { id, title, overview } = mainMovie;
 
