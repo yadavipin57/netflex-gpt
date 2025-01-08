@@ -77,6 +77,7 @@ const Header = () => {
     dispatch(toggleGPTSearchView());
     dispatch(clearMovieId());
     dispatch(clearActorId());
+    navigate("/browse")
   };
 
   const handleLanguageChange = (e) => {
@@ -87,7 +88,7 @@ const Header = () => {
     dispatch(clearActorId());
     dispatch(clearMovieId());
     dispatch(clearTVId());
-    dispatch(toggleGPTSearchView());
+    navigate("/browse");
   };
 
   const handleNavigateToWishlist = () => {
@@ -98,7 +99,7 @@ const Header = () => {
     <div
       className={`w-screen h-fit md:pb-0 absolute top-0  ${
         isAuthPage ? "bg-transparent" : "bg-transparent"
-      } text-lg md:text-lg md:px-12 md:py-2 z-10 flex flex-row justify-between bg-gradient-to-r bg-[#361818] bg-opacity-70 backdrop-blur-lg`}
+      } text-lg md:text-lg md:px-12 md:py-2 z-10 flex flex-row justify-between bg-gradient-to-r bg-[#361919] bg-opacity-70 backdrop-blur-lg`}
     >
       {/**bg-gradient-to-b from-black */}
       <div

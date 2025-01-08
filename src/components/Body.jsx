@@ -3,6 +3,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Browse from "./Browse";
 import Login from "./Login";
 import Wishlist from "./Wishlist";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -23,6 +25,7 @@ const Body = () => {
   return (
     <div>
       <RouterProvider router={appRouter} />
+      <ToastContainer className="p-1 z-[100]" position="bottom-right" autoClose={1000} />
     </div>
   );
 };

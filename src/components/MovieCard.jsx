@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { IMG_CDN_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { populateMovieId } from "../utils/movieDetailsSlice";
 import { clearActorId } from "../utils/actorDetailsSlice";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import CheckIcon from "@mui/icons-material/Check";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ref, remove, set } from "firebase/database";
+import { auth, db } from "../utils/firebase.js"; // Firebase setup
+import { toast } from "react-toastify";
+import { getRandomNumber } from "../utils/userSlice.js";
 
 const MovieCard = ({
   movieId,
@@ -13,6 +17,7 @@ const MovieCard = ({
   nameOfMovie,
   releaseDate,
   isWishlist,
+  isWatchlist,
 }) => {
   const dispatch = useDispatch();
 
@@ -37,17 +42,113 @@ const MovieCard = ({
     dispatch(populateMovieId(movieId));
   };
 
+  const movieInfoForWishlist = {
+    movieId,
+    posterPath,
+    nameOfMovie,
+    releaseDate,
+  };
+
+  const addToWishlist = () => {
+    const userId = auth?.currentUser?.uid;
+    const movieWishRef = ref(db, `users/${userId}/wishlist/${movieId}`);
+
+    set(movieWishRef, movieInfoForWishlist)
+      .then(() => {
+        toast.success(`${nameOfMovie} has been added to your wishlist!`);
+      })
+      .catch((error) => {
+        console.log("Error adding movie to wishlist:", error);
+        toast.error(
+          `${nameOfMovie} cannot be added to the wishlist due to some reason!`
+        );
+      });
+  };
+
+  const addToWatchedList = () => {
+    const userId = auth?.currentUser?.uid;
+    const movieWatchRef = ref(db, `users/${userId}/watchedlist/${movieId}`);
+    const movieWishRef = ref(db, `users/${userId}/wishlist/${movieId}`);
+
+    set(movieWatchRef, movieInfoForWishlist)
+      .then(() => {
+        toast.success(
+          `${nameOfMovie} has been added to your watchedlist! Kindly refresh the page.`
+        );
+      })
+      .catch((error) => {
+        console.log("Error adding movie to watchedlist:", error);
+        toast.error(
+          `${nameOfMovie} cannot be added to the watchedlist due to some reason!`
+        );
+      });
+
+    remove(movieWishRef);
+
+    const randomNumber = Math.random();
+    dispatch(getRandomNumber(randomNumber));
+  };
+
+  const deleteWatchedList = () => {
+    const userId = auth?.currentUser?.uid;
+    const movieWatchRef = ref(db, `users/${userId}/watchedlist/${movieId}`);
+    remove(movieWatchRef).then(() => {
+      toast.success(
+        `${nameOfMovie} has been deleted. Refresh the page to see the change.`
+      );
+    });
+
+    const randomNumber = Math.random();
+    dispatch(getRandomNumber(randomNumber));
+  };
+
   return (
     <div
       className="sm:m-2 p-2 cursor-pointer group sm:w-[200px] sm:h-[300px] relative"
       onClick={handleMovieClick}
     >
-      <span
-        className="absolute z-10 right-2 text-yellow-500 hover:scale-110"
-        title={isWishlist ? "Add to watched":"Add to wishlist"}
+      <div
+        className="absolute z-10 right-2 hover:scale-110"
+        title={
+          isWishlist
+            ? "Add to watched"
+            : isWatchlist
+            ? "Delete"
+            : "Add to wishlist"
+        }
       >
-        {isWishlist ? <CheckIcon /> : <AddBoxIcon />}
-      </span>
+        {isWishlist ? (
+          <span
+            className="text-green-500"
+            onClick={(e) => {
+              e.stopPropagation();
+              addToWatchedList();
+            }}
+          >
+            <CheckBoxIcon />
+          </span>
+        ) : isWatchlist ? (
+          <span
+            className="text-red-500"
+            onClick={(e) => {
+              e.stopPropagation();
+              deleteWatchedList();
+            }}
+          >
+            <DeleteIcon />
+          </span>
+        ) : (
+          <span
+            className="text-yellow-500"
+            onClick={(e) => {
+              e.stopPropagation();
+              addToWishlist();
+            }}
+          >
+            <AddBoxIcon />
+          </span>
+        )}
+      </div>
       {/* <span className="absolute z-10 bottom-2 right-2 text-yellow-500 hover:scale-110" title="Add to watched list"><VisibilityIcon/></span> */}
 
       {/* Image */}

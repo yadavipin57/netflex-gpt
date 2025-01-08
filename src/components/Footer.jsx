@@ -17,7 +17,7 @@ const Footer = () => {
     };
 
   return (
-    <div className="mt-12 p-2  bg-gradient-to-r bg-[#361818] bg-opacity-70 backdrop-blur-lg">
+    <div className="mt-12 p-2  bg-gradient-to-r bg-[#361919] bg-opacity-70 backdrop-blur-lg">
       <div className="flex items-center justify-between">
         <div className="cursor-pointer" onClick={handleGoToHomepage} title="Go to homepage">
           <img className="w-28 md:w-44 mx-auto md:mx-" src={LOGO} alt="LOGO" />
