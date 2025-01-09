@@ -151,7 +151,7 @@ const MovieDetails = () => {
               <span>{movieInfo?.spoken_languages?.[0]?.name}</span>
             </div>
             {/* MOBILE: Genres */}
-            <div className="mb-1 sm:hidden flex justify-between text-white gap-4">
+            <div className="mb-1 sm:hidden flex flex-wrap text-white gap-4">
               {movieInfo?.genres?.map((genre) => {
                 return (
                   <span
@@ -164,7 +164,7 @@ const MovieDetails = () => {
               })}
             </div>
 
-            <div className="flex flex-col justify-between flex-[2] h-[426px]">
+            <div className="flex flex-col gap-2 flex-[2] h-fit">
               <div className="font-bold text-white hidden sm:flex items-baseline gap-4">
                 <div>
                   <div className="sm:text-5xl">{movieInfo?.title}</div>
@@ -251,12 +251,12 @@ const MovieDetails = () => {
                 <h2 className="mt-2 px-4 text-3xl text-white font-bold">
                   Director(s)
                 </h2>
-                <div className="p-4 flex gap-10 overflow-x-scroll">
+                <div className="p-4 flex gap-4 sm:gap-8 overflow-x-scroll">
                   {directors?.map((director) => {
                     if (director?.profile_path === null) {
                       return (
                         <div
-                          className="w-[164px] flex-shrink-0"
+                          className="w-[164px] h-fit flex-shrink-0"
                           key={director.id}
                         >
                           <img
@@ -299,7 +299,7 @@ const MovieDetails = () => {
                 <h2 className="mt-2 px-4 text-3xl text-white font-bold">
                   Writer(s)
                 </h2>
-                <div className="p-4 flex gap-10 overflow-x-scroll">
+                <div className="p-4 flex gap-4 sm:gap-8 overflow-x-scroll">
                   {writers?.map((writer) => {
                     if (writer?.profile_path === null) {
                       return (

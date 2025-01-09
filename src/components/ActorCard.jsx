@@ -13,7 +13,7 @@ const ActorCard = ({ castInfo }) => {
   };
 
   return (
-    <div className="p-4 flex gap-10 overflow-x-scroll">
+    <div className="p-4 flex gap-4 sm:gap-8 overflow-x-scroll">
       {castInfo?.map((actor) => {
         if (actor?.profile_path === null) {
           return (

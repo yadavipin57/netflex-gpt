@@ -28,7 +28,7 @@ const Browse = () => {
   useUpcomingMovies();
 
   return (
-    <div className="flex flex-col justify-between min-h-[100vh]">
+    <div className="relative flex flex-col justify-between min-h-[100vh]">
       <Header />
       {movieIdFromStore ? (
         <MovieDetails />

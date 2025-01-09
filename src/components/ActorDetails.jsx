@@ -78,7 +78,8 @@ const ActorDetails = () => {
   };
 
   const birthDateArray = actorInfo?.birthday.split("-");
-  const birthMonth = [
+  const deathDateArray = actorInfo?.deathday.split("-");
+  const month = [
     "Jan",
     "Feb",
     "Mar",
@@ -92,6 +93,9 @@ const ActorDetails = () => {
     "Nov",
     "Dec",
   ];
+
+  const birthPlaceArray = actorInfo?.place_of_birth.split(",");
+  const birthCountry = birthPlaceArray?.[birthDateArray.length - 1];
 
   return (
     <div className=" sm:mt-0">
@@ -112,37 +116,41 @@ const ActorDetails = () => {
             <CloseIcon />
           </div>
           <div className="p-2 sm:p-12 text-white sm:flex items-start justify-evenly h-fit">
-            <div className="">
+            <div className="sm:mr-4">
               <img
                 className="mx-auto w-[144px] block sm:w-[280px] sm:h-[420px] object-cover rounded-xl cursor-pointer border border-red-700"
                 src={IMG_CDN_URL + actorInfo?.profile_path}
                 alt={actorInfo?.name || "Movie Poster"}
               />
             </div>
-            <div className="w-full sm:w-1/2 sm:h-[540px] flex flex-col">
+            <div className="w-full sm:w-3/4 sm:h-[540px] flex flex-col">
               <div className="text-2xl sm:text-5xl font-bold">
                 {actorInfo?.name},{" "}
                 <span className="text-sm sm:text-lg font-normal">
                   {actorInfo?.known_for_department}
                 </span>{" "}
               </div>
-              <div className="sm:flex items-center">
+              <div className="mb-1 flex items-center">
                 <div className="text-md sm:text-xl">
                   Born:
-                  {` ${birthMonth[birthDateArray?.[1] - 1]} ${
+                  {` ${month[birthDateArray?.[1] - 1]} ${
                     birthDateArray?.[2]
                   }, ${birthDateArray?.[0]},`}
                   &nbsp;
                 </div>
                 <div className="text-md sm:text-xl">
-                  {actorInfo?.place_of_birth}&nbsp;|&nbsp;
+                  {birthCountry}&nbsp;|&nbsp;
                 </div>
                 <div className="text-md sm:text-xl"> {gender}</div>
               </div>
-              <div className="text-md sm:text-xl">
-                {actorInfo?.deathday ? `Death: ${actorInfo?.deathday}` : ""}
+              <div className="mb-1 text-md sm:text-xl">
+                {actorInfo?.deathday
+                  ? `Death: ${month[deathDateArray?.[1] - 1]} ${
+                      deathDateArray?.[2]
+                    }, ${deathDateArray?.[0]}`
+                  : ""}
               </div>
-              <div className="flex">
+              <div className="mb-1 flex">
                 {actorInfo?.homepage ? `Website:_` : null}
                 <a
                   className="text-blue-500"
@@ -184,10 +192,7 @@ const ActorDetails = () => {
           </div>
           <div className="mt-10">
             {/* This send the list of movies of that actor to MovieList as prop */}
-            <MovieList
-              title={`Movies`}
-              movies={actorMovieNamesInfo?.cast}
-            />
+            <MovieList title={`Movies`} movies={actorMovieNamesInfo?.cast} />
             <TVList
               title={`TV Shows & Series`}
               tvShows={actorTVNamesInfo?.cast}
