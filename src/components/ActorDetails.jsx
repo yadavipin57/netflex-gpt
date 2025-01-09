@@ -77,8 +77,11 @@ const ActorDetails = () => {
     dispatch(clearActorId());
   };
 
+  let deathDateArray = [];
+  if (actorInfo?.deathday != null) {
+    deathDateArray = actorInfo?.deathday?.split("-");
+  }
   const birthDateArray = actorInfo?.birthday.split("-");
-  const deathDateArray = actorInfo?.deathday.split("-");
   const month = [
     "Jan",
     "Feb",
@@ -123,7 +126,7 @@ const ActorDetails = () => {
                 alt={actorInfo?.name || "Movie Poster"}
               />
             </div>
-            <div className="w-full sm:w-3/4 sm:h-[540px] flex flex-col">
+            <div className="w-full sm:w-3/4 sm:h-fit flex flex-col">
               <div className="text-2xl sm:text-5xl font-bold">
                 {actorInfo?.name},{" "}
                 <span className="text-sm sm:text-lg font-normal">
@@ -161,7 +164,7 @@ const ActorDetails = () => {
                   {actorInfo?.homepage ? `${actorInfo?.homepage}` : null}
                 </a>
               </div>
-              <div className="pr-1 h-[50vh] sm:h-auto overflow-y-scroll text-justify">
+              <div className="pr-1 h-[44vh] overflow-y-scroll text-justify">
                 {actorInfo?.biography}
               </div>
             </div>
